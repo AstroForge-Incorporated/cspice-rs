@@ -66,6 +66,7 @@ fn initialise_library(guard: &ReentrantMutexGuard<'static, RefCell<bool>>) {
 }
 
 #[derive(Debug)]
+#[allow(dead_code)]
 pub struct SpiceLock(ReentrantMutexGuard<'static, RefCell<bool>>);
 
 /// Error returned from [try_with_spice_lock()].
