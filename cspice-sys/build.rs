@@ -2,9 +2,10 @@ extern crate core;
 
 use std::path::{Path, PathBuf};
 use std::process::Command;
+use std::str::FromStr;
 use std::{env, fs};
 
-const CSPICE_DIR: &str = "CSPICE_DIR";
+const CSPICE_DIR: &str = "../cspice-fork";
 const CSPICE_CLANG_TARGET: &str = "CSPICE_CLANG_TARGET";
 const CSPICE_CLANG_ROOT: &str = "CSPICE_CLANG_ROOT";
 
@@ -14,14 +15,11 @@ fn main() {
         docs_rs(&out_path);
     }
 
-    println!("cargo:rerun-if-env-changed={}", CSPICE_DIR);
+    println!("cargo:rerun-if-changed={}", CSPICE_DIR);
     println!("cargo:rerun-if-env-changed={}", CSPICE_CLANG_TARGET);
     println!("cargo:rerun-if-env-changed={}", CSPICE_CLANG_ROOT);
 
-    let cspice_dir = env::var(CSPICE_DIR)
-        .ok()
-        .map(PathBuf::from)
-        .or_else(locate_cspice);
+    let cspice_dir = PathBuf::from_str(CSPICE_DIR).ok().or_else(locate_cspice);
 
     #[cfg(feature = "downloadcspice")]
     let cspice_dir = cspice_dir.or_else(|| {
@@ -32,14 +30,14 @@ fn main() {
         Some(downloaded)
     });
 
-    let mut cspice_dir =
-		cspice_dir.expect("Cannot build: CSPICE_DIR environment variable was not provided, no CSPICE install was found, and feature \"downloadcspice\" is disabled.");
+    let cspice_dir = cspice_dir.expect(
+        "Cannot build: no CSPICE install was found and feature \"downloadcspice\" is disabled.",
+    );
+
+    let mut cspice_dir = fs::canonicalize(&cspice_dir).unwrap(); // Get absolute path
 
     if !cspice_dir.is_dir() {
-        panic!(
-            "Provided {CSPICE_DIR} ({}) is not a directory",
-            cspice_dir.display()
-        )
+        panic!("{CSPICE_DIR} ({}) is not a directory", cspice_dir.display())
     }
 
     match env::consts::ARCH {

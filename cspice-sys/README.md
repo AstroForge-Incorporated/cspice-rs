@@ -25,9 +25,6 @@ You can also download CSPICE and tell this crate about where to find it manually
 First install the CSPICE toolkit by downloading and extracting the appropriate archive from 
 [here](https://naif.jpl.nasa.gov/naif/toolkit_C.html).
 
-Then, set the `CSPICE_DIR` environment variable to point to the extracted `cspice` directory (which should contain
-the `include` and `lib` directories).
-
 **WARNING**: On Unix like systems you will likely need to rename `lib/cspice.a` to `lib/libcspice.a` so that it can be
 successfully linked.
 
