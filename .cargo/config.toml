@@ -1,2 +1,0 @@
-[env]
-CSPICE_DIR = {value="cspice-fork", relative = true}
