@@ -40,15 +40,15 @@ fn main() {
         panic!("{CSPICE_DIR} ({}) is not a directory", cspice_dir.display())
     }
 
-    match env::consts::ARCH {
-        "x86_64" => {
-            cspice_dir = cspice_dir.join("x86_64");
-        }
-        "aarch64" => {
-            cspice_dir = cspice_dir.join("aarch64");
-        }
-        _ => panic!("Unsupported OS"),
-    }
+    // match env::consts::ARCH {
+    // "x86_64" => {
+    cspice_dir = cspice_dir.join("x86_64");
+    //     }
+    //     "aarch64" => {
+    //         cspice_dir = cspice_dir.join("aarch64");
+    //     }
+    //     _ => panic!("Unsupported OS"),
+    // }
 
     let include_dir = cspice_dir.join("include");
 
