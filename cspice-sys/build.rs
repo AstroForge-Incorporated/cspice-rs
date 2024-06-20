@@ -34,21 +34,21 @@ fn main() {
         "Cannot build: no CSPICE install was found and feature \"downloadcspice\" is disabled.",
     );
 
-    let mut cspice_dir = fs::canonicalize(&cspice_dir).unwrap(); // Get absolute path
+    let mut cspice_dir = fs::canonicalize(cspice_dir).unwrap(); // Get absolute path
 
     if !cspice_dir.is_dir() {
         panic!("{CSPICE_DIR} ({}) is not a directory", cspice_dir.display())
     }
 
-    // match env::consts::ARCH {
-    // "x86_64" => {
-    cspice_dir = cspice_dir.join("x86_64");
-    //     }
-    //     "aarch64" => {
-    //         cspice_dir = cspice_dir.join("aarch64");
-    //     }
-    //     _ => panic!("Unsupported OS"),
-    // }
+    match env::var("CARGO_CFG_TARGET_ARCH").unwrap().as_str() {
+        "x86_64" => {
+            cspice_dir = cspice_dir.join("x86_64");
+        }
+        "aarch64" => {
+            cspice_dir = cspice_dir.join("aarch64");
+        }
+        _ => panic!("Unsupported OS"),
+    }
 
     let include_dir = cspice_dir.join("include");
 
