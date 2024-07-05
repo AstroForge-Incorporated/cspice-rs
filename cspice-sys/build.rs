@@ -73,7 +73,7 @@ fn main() {
         .expect("Unable to generate bindings");
 
     bindings
-        .write_to_file(out_path.join("bindgen.rs"))
+        .write_to_file(PathBuf::from_str("./src/bindgen.rs").unwrap())
         .expect("Couldn't write bindings!");
 
     println!(

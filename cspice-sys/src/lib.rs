@@ -10,7 +10,7 @@
     unused_imports
 )]
 
-include!(concat!(env!("OUT_DIR"), "/bindgen.rs"));
+include!("./bindgen.rs");
 
 #[cfg(test)]
 mod tests {
