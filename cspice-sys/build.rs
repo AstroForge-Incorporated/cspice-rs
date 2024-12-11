@@ -40,15 +40,20 @@ fn main() {
         panic!("{CSPICE_DIR} ({}) is not a directory", cspice_dir.display())
     }
 
-    match env::consts::ARCH {
-        "x86_64" => {
-            cspice_dir = cspice_dir.join("x86_64");
-        }
-        "aarch64" => {
-            cspice_dir = cspice_dir.join("aarch64");
-        }
+    let target_arch = env::var("CARGO_CFG_TARGET_ARCH").unwrap();
+    let target_os = env::var("CARGO_CFG_TARGET_OS").unwrap();
+    cspice_dir = match target_os.as_str() {
+        "macos" => match target_arch.as_str() {
+            "aarch64" => cspice_dir.join("aarch64"),
+            _ => panic!("Unsupported macos architecture '{target_arch}'"),
+        },
+        "linux" => match target_arch.as_str() {
+            "x86_64" => cspice_dir.join("x86_64"),
+            "aarch64" => cspice_dir.join("aarch64"),
+            _ => panic!("Unsupported linux architecture '{target_arch}'"),
+        },
         _ => panic!("Unsupported OS"),
-    }
+    };
 
     let include_dir = cspice_dir.join("include");
 
