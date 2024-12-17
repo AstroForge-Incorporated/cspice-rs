@@ -165,7 +165,7 @@ else
 #
 #     -fPIC              position-independent code
 #
-   set TKCOMPILEOPTIONS = "-c -ansi -O2 -fPIC -DNON_UNIX_STDIO"
+   set TKCOMPILEOPTIONS = "-c -ansi -march=native -O2 -fPIC -DNON_UNIX_STDIO"
    echo " "
    echo "      Setting default compile options:"
    echo "      $TKCOMPILEOPTIONS"
@@ -176,7 +176,7 @@ if ( $?TKLINKOPTIONS ) then
    echo "      Using link options: "
    echo "      $TKLINKOPTIONS"
 else
-   set TKLINKOPTIONS = "-lm"
+   set TKLINKOPTIONS = "-lm -march=native"
    echo " "
    echo "      Setting default link options:"
    echo "      $TKLINKOPTIONS"
