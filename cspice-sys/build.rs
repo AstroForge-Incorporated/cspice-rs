@@ -86,7 +86,7 @@ fn main() {
         "cargo:rustc-link-search=native={}",
         cspice_dir.join("lib").display()
     );
-    println!("cargo:rustc-link-lib=dylib=cspice");
+    println!("cargo:rustc-link-lib=static=cspice");
 }
 
 // Check for CSPICE installation in system library folders
