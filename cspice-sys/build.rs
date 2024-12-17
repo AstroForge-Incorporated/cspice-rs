@@ -47,13 +47,12 @@ fn main() {
             "aarch64" => cspice_dir.join("darwin-aarch64"),
             _ => panic!("Unsupported macos architecture '{target_arch}'"),
         },
-        "linux" => cspice_dir.join("linux-x86_64"),
-        // "linux" => match target_arch.as_str() {
-        //     // "x86_64" => cspice_dir.join("linux-x86_64"),
-        //     // "aarch64" => cspice_dir.join("linux-aarch64"),
-
-        //     // _ => panic!("Unsupported linux architecture '{target_arch}'"),
-        // },
+        // "linux" => cspice_dir.join("linux-x86_64")
+        "linux" => match target_arch.as_str() {
+            "x86_64" => cspice_dir.join("linux-x86_64"),
+            "aarch64" => cspice_dir.join("linux-aarch64"),
+            _ => panic!("Unsupported linux architecture '{target_arch}'"),
+        },
         _ => panic!("Unsupported OS"),
     };
 
@@ -87,7 +86,7 @@ fn main() {
         "cargo:rustc-link-search=native={}",
         cspice_dir.join("lib").display()
     );
-    println!("cargo:rustc-link-lib=static=cspice");
+    println!("cargo:rustc-link-lib=dylib=cspice");
 }
 
 // Check for CSPICE installation in system library folders
